@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:merodera/items.dart';
+import 'package:merodera/login_page.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Welcome Screen',
-      home: merodera(),
+      home: MeroDera(),
     );
   }
 }
 
-class merodera extends StatefulWidget {
+class MeroDera extends StatefulWidget {
+  const MeroDera({Key? key}) : super(key: key);
+
   @override
-  _meroderaState createState() => _meroderaState();
+  _MeroDeraState createState() => _MeroDeraState();
 }
 
-class _meroderaState extends State<merodera> {
+class _MeroDeraState extends State<MeroDera> {
   List<Widget> slides = items
       .map((item) => Container(
           padding: EdgeInsets.symmetric(horizontal: 18.0),
@@ -80,7 +85,7 @@ class _meroderaState extends State<merodera> {
           ));
 
   double currentPage = 0.0;
-  final _pageViewController = new PageController();
+  final _pageViewController = PageController();
 
   @override
   void initState() {
@@ -95,31 +100,36 @@ class _meroderaState extends State<merodera> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Stack(
-          children: <Widget>[
-            PageView.builder(
-              controller: _pageViewController,
-              itemCount: slides.length,
-              itemBuilder: (BuildContext context, int index) {
-                return slides[index];
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  margin: EdgeInsets.only(top: 70.0),
-                  padding: EdgeInsets.symmetric(vertical: 40.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: indicator(),
-                  ),
-                )
-                //  ),
-                )
-            // )
-          ],
-        ),
+      body: Stack(
+        children: <Widget>[
+          PageView.builder(
+            controller: _pageViewController,
+            itemCount: slides.length,
+            itemBuilder: (BuildContext context, int index) {
+              return slides[index];
+            },
+          ),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: EdgeInsets.only(top: 70.0),
+                padding: EdgeInsets.symmetric(vertical: 40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: indicator(),
+                ),
+              )
+              //  ),
+              )
+          // )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => LoginRegister()));
+        },
+        label: Text("Next"),
       ),
     );
   }
